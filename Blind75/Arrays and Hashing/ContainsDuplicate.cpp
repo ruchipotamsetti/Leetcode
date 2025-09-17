@@ -50,3 +50,21 @@ public:
     }
 };
 
+// Solution 3: O(n)
+
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        unordered_set<int>unique;
+        for(int value:nums){
+            if(unique.count(value)){
+                return true;
+            }
+            else{
+                unique.insert(value);
+            }
+        }
+        return false;
+    }
+};
+
