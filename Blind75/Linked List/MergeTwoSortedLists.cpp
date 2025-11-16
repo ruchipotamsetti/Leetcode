@@ -1,4 +1,4 @@
-// Solution 1: Time complexity: O(n+m), Space complexity: O(1)
+// Solution 1: Iteration Time complexity: O(n+m), Space complexity: O(1)
 
 /**
  * Definition for singly-linked list.
@@ -37,3 +37,5 @@ public:
         return dummy.next;
     }
 };
+
+// Solution 2: Recursion
