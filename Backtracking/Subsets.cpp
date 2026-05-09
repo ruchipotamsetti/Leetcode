@@ -17,15 +17,15 @@ public:
     }
 
     void find_subsets(int i, vector<int>& nums, vector<vector<int>>& results, vector<int>& current){
-
+        //base case: if we have reached the end of the nums array, we add the current subset to the results and return.
         if(i==nums.size()){
             results.push_back(current);
             return;
         }
-
+        // make choice: include the current number and move to the next number (i+1) or exclude the current number and move to the next number (i+1)
         current.push_back(nums[i]);
         find_subsets(i+1, nums, results, current);
-
+        // backtrack: remove the current number from the current subset and move to the next number (i+1)
         current.pop_back();
         find_subsets(i+1, nums, results, current);
 
