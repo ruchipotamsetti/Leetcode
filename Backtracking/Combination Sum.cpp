@@ -1,4 +1,4 @@
-
+//Using binary tree approach to find all the combinations of candidates that sum up to the target.
 // Time Complexity: O(2^n) where n is the number of elements in the input array. 
 // This is because for each element, we have two choices: include it in the subset or exclude it. 
 // Therefore, the total number of subsets is 2^n.
@@ -42,4 +42,41 @@ public:
         findSubsets(i+1, candidates, target, result, curr, sum);
 
     }
+};
+
+//Using for loop approach to find all the unique combinations of candidates that sum up to the target.
+// Time Complexity: O(2^n) where n is the number of elements in the input array. 
+// This is because for each element, we have two choices: include it in the subset or exclude it. Therefore, the total number of subsets is 2^n.
+// Space Complexity: O(2^n) for storing all the subsets in the results vector. 
+// Additionally, the space complexity of the recursive call stack is O(n) in the worst case when all elements are included in the subset. 
+// However, since we are storing all subsets, the overall space complexity is dominated by O(2^n).
+
+
+class Solution {
+public:
+    vector<vector<int>>result;
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<int>curr;
+        sort(candidates.begin(), candidates.end());
+        findSubsets(0, candidates, target, curr, 0);
+        return result;
+    }
+
+    void findSubsets(int i, vector<int>& candidates, int target, vector<int>& curr, int sum){
+
+        if(sum==target){
+            result.push_back(curr);
+        }
+
+        for(int j=i; j<candidates.size(); j++){
+            if(sum+candidates[j]>target)
+                return;
+            curr.push_back(candidates[j]);
+            findSubsets(j, candidates, target, curr, sum+candidates[j]);
+            curr.pop_back();
+        }
+
+    }
+
+
 };
