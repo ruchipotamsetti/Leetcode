@@ -1,5 +1,8 @@
 // Time Complexity: O(V + E) where V is the number of vertices and E is the number of edges in the graph. 
 // We are traversing through all the vertices and edges once in the worst case.
+// Building adjacency list: O(E) as we are iterating through the edges to build the adjacency list.
+// DFS traversal: O(V + E) as we may visit all the vertices and edges in the worst case during the DFS traversal.
+// Total: O(V + E) as we are doing both building the adjacency list and DFS traversal.
 // Space Complexity: O(V) where V is the number of vertices in the graph. 
 // We are using an adjacency list to store the graph and a visited set to keep track of the visited vertices.    
 
