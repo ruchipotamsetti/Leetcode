@@ -1,0 +1,58 @@
+//My approach:
+//Time Complexity: O(n)
+//Space Complexity: O(n)
+class Solution {
+public:
+    int minAddToMakeValid(string s) {
+        stack<char>st;
+        int moves = 0;
+        int n = s.length();
+        for(int i=0;i<n;i++){
+            if(s[i] == '('){
+                st.push('(');
+            }
+            else{
+                if(!st.empty()){
+                    st.pop();
+                }
+                else{
+                    moves++;
+                }
+            }
+        }
+
+        if(!st.empty()){
+            moves += st.size();
+        }
+
+        return moves;
+    }
+};
+
+//Better Approach:
+//Time Complexity: O(n)
+//Space Complexity: O(1)
+class Solution {
+public:
+    int minAddToMakeValid(string s) {
+        int open = 0;
+        int add = 0;
+        int n = s.length();
+
+        for(int i=0; i<n; i++){
+            if(s[i] == '('){
+                open++;
+            }
+            else{
+                if(open>0){
+                    open--;
+                }
+                else{
+                    add++;
+                }
+            }
+        }
+
+        return open+add;
+    }
+};
