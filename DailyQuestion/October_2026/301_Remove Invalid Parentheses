@@ -1,0 +1,77 @@
+//Time Complexity:O(n * 2^n) where n is the length of the string s. In the worst case, we may have to explore 
+// all possible combinations of parentheses to remove, which can lead to an exponential number of possibilities. 
+// The factor of n comes from the time taken to construct each valid string and check its validity.
+//Space Complexity:O(n) for the recursion stack and the space used to store the current string being constructed. 
+// In the worst case, the recursion stack can go as deep as the length of the string s, and we also need space to 
+// store the current string being built during the backtracking process.
+
+class Solution {
+public:
+    vector<string> removeInvalidParentheses(string s) {
+        // Same counter logic as Minimum Add to Make Valid,
+        // but now it counts how many to REMOVE.
+        int rmOpen = 0, rmClose = 0;
+        for (char c : s) {
+            if (c == '(') {
+                rmOpen++;
+            } else if (c == ')') {
+                if (rmOpen > 0) rmOpen--;
+                else rmClose++;
+            }
+        }
+
+        vector<string> result;
+        string cur;
+        backtrack(s, 0, 0, 0, rmOpen, rmClose, cur, result);
+        return result;
+    }
+
+private:
+    void backtrack(const string& s, int idx, int open, int close,
+                   int rmOpen, int rmClose, string& cur, vector<string>& result) {
+        int n = s.size();
+        if (idx == n) {
+            if (rmOpen == 0 && rmClose == 0 && open == close)
+                result.push_back(cur);
+            return;
+        }
+
+        char c = s[idx];
+
+        // Letters are always kept and change nothing.
+        if (c != '(' && c != ')') {
+            cur.push_back(c);
+            backtrack(s, idx + 1, open, close, rmOpen, rmClose, cur, result);
+            cur.pop_back();
+            return;
+        }
+
+        // Find the run of identical parentheses starting at idx.
+        int j = idx;
+        while (j < n && s[j] == c) j++;
+        int k = j - idx;
+
+        // Decide how many of the run to remove (r), keep the other k - r.
+        // Choosing a count instead of branching per character avoids duplicates.
+        for (int r = 0; r <= k; r++) {
+            int keep = k - r;
+            int newOpen = open, newClose = close;
+            int newRmOpen = rmOpen, newRmClose = rmClose;
+
+            if (c == '(') {
+                if (r > rmOpen) break;          // not allowed to remove this many
+                newRmOpen -= r;
+                newOpen += keep;
+            } else {
+                if (r > rmClose) break;
+                newRmClose -= r;
+                newClose += keep;
+                if (newClose > newOpen) continue; // invalid prefix, try removing more
+            }
+
+            cur.append(keep, c);
+            backtrack(s, j, newOpen, newClose, newRmOpen, newRmClose, cur, result);
+            cur.resize(cur.size() - keep);
+        }
+    }
+};
